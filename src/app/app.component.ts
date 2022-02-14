@@ -1,11 +1,8 @@
 import { TransferenciaService } from './services/transferencia.service';
 import { Component } from '@angular/core';
+import { Transferencia } from './models/transferencia.models';
 
-interface AuxProp  {
-  data:Date;
-  valor:number;
-  destino:number;
-};
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,8 +15,4 @@ export class AppComponent {
 
   }
 
-  transferir($event: AuxProp){
-    this.services.adicionar($event);
-
-  }
 }

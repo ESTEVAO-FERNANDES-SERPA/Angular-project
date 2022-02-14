@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-
+import { HttpClient } from '@angular/common/http';
+import { Transferencia } from '../models/transferencia.models';
+import { Observable } from 'rxjs';
 interface AuxProp  {
   data:Date;
   valor:number;
@@ -10,10 +12,10 @@ interface AuxProp  {
   providedIn: 'root'
 })
 export class TransferenciaService {
+ private listaTransferencia: Transferencia[];
+ private url = 'http://localhost:3000/transferencias';
 
- private listaTransferencia: AuxProp[];
-
-constructor() {
+constructor(private httpClient: HttpClient) {
   this.listaTransferencia = [];
 }
 
@@ -21,12 +23,16 @@ constructor() {
     return this.listaTransferencia;
   }
 
-  adicionar(transferencia:AuxProp ){
-    this.hidratar(transferencia);
-    this.listaTransferencia.push(transferencia);
+  todas():Observable<Transferencia[]>{
+    return this.httpClient.get<Transferencia[]>(this.url)
   }
 
-  private hidratar(transferencia:AuxProp){
+  adicionar(transferencia:Transferencia ):Observable<Transferencia>{
+    this.hidratar(transferencia);
+    return this.httpClient.post<Transferencia>(this.url, transferencia)
+  }
+
+  private hidratar(transferencia:Transferencia){
     transferencia.data = new Date();
   }
 
