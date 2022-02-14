@@ -1,5 +1,11 @@
+import { TransferenciaService } from './services/transferencia.service';
 import { Component } from '@angular/core';
 
+interface AuxProp  {
+  data:Date;
+  valor:number;
+  destino:number;
+};
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -7,14 +13,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'bytebank';
-  destino?:number;
-  valor?: number;
-  transferencia?:any;
 
-  transferir($event: any){
-    console.log($event);
-    this.destino = $event.destino;
-    this.valor = $event.valor;
-    this.transferencia = $event
+  constructor(private services: TransferenciaService){
+
+  }
+
+  transferir($event: AuxProp){
+    this.services.adicionar($event);
+
   }
 }
